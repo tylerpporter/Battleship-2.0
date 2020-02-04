@@ -53,10 +53,19 @@ class CellTest < Minitest::Test
     assert_equal "M", @cell.render
   end
 
-  def test_render_can_reveal_a_ship
+  def test_it_can_reveal_a_ship
     @cell.place_ship(@ship)
 
     assert_equal "S", @cell.render(true)
+  end
+
+  def test_it_returns_H_if_fired_upon_a_ship_with_health_above_zero
+    @cell.place_ship(@ship)
+    @cell.fire_upon
+
+    assert @cell.fired_upon?
+    assert_equal 2, @cell.ship.health
+    assert_equal "H", @cell.render
   end
 
 end

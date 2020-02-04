@@ -53,4 +53,10 @@ class CellTest < Minitest::Test
     assert_equal "M", @cell.render
   end
 
+  def test_render_can_reveal_a_ship
+    @cell.place_ship(@ship)
+
+    assert_equal "S", @cell.render(true)
+  end
+
 end

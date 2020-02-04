@@ -26,9 +26,13 @@ class Cell
     @fired_upon
   end
 
-  def render
-    return "." if !fired_upon?
-    return "M" if empty? 
+  def render(ship = false)
+    return "." if !fired_upon? && !ship 
+    return "M" if empty?
+    if ship == true && !empty?
+      "S"
+    else
+    end
   end
 
 end

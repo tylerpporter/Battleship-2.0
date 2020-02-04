@@ -15,4 +15,9 @@ class ShipTest < Minitest::Test
     assert_equal 3, @ship.health
   end
 
+  def test_it_does_not_start_out_sunk
+
+    assert_equal false, @ship.sunk?
+  end
+
 end

@@ -31,7 +31,14 @@ class CellTest < Minitest::Test
   def test_it_knows_if_its_been_fired_upon
     @cell.fire_upon
 
-    assert @cell.fired_upon? 
+    assert @cell.fired_upon?
+  end
+
+  def test_its_ship_has_been_hit_after_fired_upon
+    @cell.place_ship(@ship)
+    @cell.fire_upon
+    
+    assert_equal 2, @cell.ship.health
   end
 
 end

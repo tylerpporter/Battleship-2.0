@@ -6,6 +6,8 @@ class CellTest < Minitest::Test
 
   def setup
     @cell = Cell.new("B4")
+    @cell2 = Cell.new("C4")
+    @cell3 = Cell.new("D4")
     @ship = Ship.new("Cruiser", 3)
   end
 
@@ -41,6 +43,18 @@ class CellTest < Minitest::Test
     assert_equal 2, @cell.ship.health
   end
 
+  def test_get_error_message_if_already_fired_upon
+    @cell.place_ship(@ship)
+    @cell.fire_upon
+
+    assert_equal 2, @cell.ship.health
+
+    @cell.fire_upon
+
+    assert_equal 2, @cell.ship.health
+    assert_equal "Already fired upon this cell!", @cell.fire_upon
+  end
+
   def test_it_returns_dot_if_not_fired_upon
 
     assert @cell.empty?
@@ -69,13 +83,17 @@ class CellTest < Minitest::Test
   end
 
   def test_it_returns_X_if_fired_upon_and_ship_is_sunk
+
     @cell.place_ship(@ship)
+    @cell2.place_ship(@ship)
+    @cell3.place_ship(@ship)
+
     @cell.fire_upon
-    @cell.fire_upon
-    @cell.fire_upon
+    @cell2.fire_upon
+    @cell3.fire_upon
 
     assert @cell.ship.sunk?
-    assert_equal "X", @cell.render 
+    assert_equal "X", @cell.render
   end
 
 end

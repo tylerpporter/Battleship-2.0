@@ -47,4 +47,10 @@ class CellTest < Minitest::Test
     assert_equal ".", @cell.render
   end
 
+  def test_it_returns_M_if_fired_upon_without_a_ship
+    @cell.fire_upon
+
+    assert_equal "M", @cell.render
+  end
+
 end

@@ -27,7 +27,8 @@ class Cell
   end
 
   def render
-    return "." if empty? 
+    return "." if !fired_upon?
+    return "M" if empty? 
   end
 
 end

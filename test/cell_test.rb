@@ -1,10 +1,12 @@
 require_relative 'test_helper.rb'
+require './lib/ship.rb'
 require './lib/cell.rb'
 
 class CellTest < Minitest::Test
 
   def setup
     @cell = Cell.new("B4")
+    @ship = Ship.new("Cruiser", 3)
   end
 
   def test_it_exists_with_attributes
@@ -18,6 +20,12 @@ class CellTest < Minitest::Test
   def test_it_starts_out_empty
 
     assert @cell.empty?
+  end
+
+  def test_it_can_have_a_ship
+    @cell.place_ship(@ship)
+
+    assert_equal "Cruiser", @cell.ship.name
   end
 
 end

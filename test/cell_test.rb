@@ -15,4 +15,9 @@ class CellTest < Minitest::Test
     assert_equal false, @cell.fired_upon
   end
 
+  def test_it_starts_out_empty
+
+    assert @cell.empty?
+  end
+
 end

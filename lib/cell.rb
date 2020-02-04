@@ -19,11 +19,15 @@ class Cell
     @fired_upon = true
     if @ship != nil
       @ship.hit
-    end 
+    end
   end
 
   def fired_upon?
     @fired_upon
+  end
+
+  def render
+    return "." if empty? 
   end
 
 end

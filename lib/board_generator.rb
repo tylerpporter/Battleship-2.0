@@ -8,11 +8,12 @@ class BoardGenerator
 
     columns = (1..@width).to_a.map(&:to_s)
     rows = (65..65 + (@height -1)).to_a.map(&:chr)
-    keys = rows.zip(columns).map(&:join)
-    arr_board = keys.map {|coordinate| Cell.new(coordinate)}
-    values = keys.map do |key|
-      arr_board.select {|cell| cell.coordinate == key}
-    end
-    @board = keys.zip(values).to_h
+    keys = (rows.map do |letter|
+            columns.map {|num| letter + num}
+            end).flatten
+    cells = keys.map {|coordinate| Cell.new(coordinate)}
+
+    @board = keys.zip(cells).to_h
   end
+  
 end

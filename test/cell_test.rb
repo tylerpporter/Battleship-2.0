@@ -28,4 +28,10 @@ class CellTest < Minitest::Test
     assert_equal "Cruiser", @cell.ship.name
   end
 
+  def test_it_knows_if_its_been_fired_upon
+    @cell.fire_upon
+
+    assert @cell.fired_upon? 
+  end
+
 end

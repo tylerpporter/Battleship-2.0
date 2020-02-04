@@ -7,8 +7,12 @@ class ShipTest < Minitest::Test
     @ship = Ship.new("Cruiser", 3)
   end
 
-  def test_it_exists
+  def test_it_exists_with_attributes
+
     assert_instance_of Ship, @ship
+    assert_equal "Cruiser", @ship.name
+    assert_equal 3, @ship.length
+    assert_equal 3, @ship.health
   end
 
 end

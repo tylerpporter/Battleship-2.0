@@ -59,13 +59,23 @@ class CellTest < Minitest::Test
     assert_equal "S", @cell.render(true)
   end
 
-  def test_it_returns_H_if_fired_upon_a_ship_with_health_above_zero
+  def test_it_returns_H_if_fired_upon_and_ship_is_not_sunk
     @cell.place_ship(@ship)
     @cell.fire_upon
 
     assert @cell.fired_upon?
     assert_equal 2, @cell.ship.health
     assert_equal "H", @cell.render
+  end
+
+  def test_it_returns_X_if_fired_upon_and_ship_is_sunk
+    @cell.place_ship(@ship)
+    @cell.fire_upon
+    @cell.fire_upon
+    @cell.fire_upon
+
+    assert @cell.ship.sunk?
+    assert_equal "X", @cell.render 
   end
 
 end

@@ -1,12 +1,13 @@
 Need a BoardGenerator class
-A new instance will take 1 argument
-  number_of_cells
-    Must be a perfect square number
-def initialize(number_of_cells)
-  return "Must be a perfect square" if (Math.sqrt(number_of_cells) % 1).round(1) != 0.0
-  number_of_rows_and_columns = Math.sqrt(number_of_cells).to_i
-  columns = (1..number_of_rows_and_columns).to_a.map(&:to_s)
-  rows = (65..65 + (number_of_rows_and_columns -1)).to_a.map(&:chr)
-  coordinates = rows.zip(columns).map(&:join)
-  arr_board = coordinates.map {|coordinate| Cell.new(coordinate)}
-  hsh_board 
+A new instance will take 2 arguments
+  height
+  width
+def initialize(height, width)
+  columns = (1..width).to_a.map(&:to_s)
+  rows = (65..65 + (height -1)).to_a.map(&:chr)
+  keys = rows.zip(columns).map(&:join)
+  arr_board = keys.map {|coordinate| Cell.new(coordinate)}
+  values = keys.map do |key|
+            arr_board.select {|cell| cell.coordinate == key}
+          end
+  board = keys.zip(values).to_h

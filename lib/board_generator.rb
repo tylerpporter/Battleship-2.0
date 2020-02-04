@@ -7,7 +7,7 @@ class BoardGenerator
     @width = width
 
     columns = (1..@width).to_a.map(&:to_s)
-    rows = (65..65 + (@height -1)).to_a.map(&:chr)
+    rows = (65...65 + @height).to_a.map(&:chr)
     keys = (rows.map do |letter|
             columns.map {|num| letter + num}
             end).flatten
@@ -15,5 +15,5 @@ class BoardGenerator
 
     @board = keys.zip(cells).to_h
   end
-  
+
 end

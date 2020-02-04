@@ -8,7 +8,13 @@ class BoardGeneratorTest < Minitest::Test
   end
 
   def test_it_exists
+
     assert_instance_of BoardGenerator, @board
+  end
+
+  def test_it_returns_a_board_as_a_hash
+
+    assert_equal Hash, @board.board.class  
   end
 
 end

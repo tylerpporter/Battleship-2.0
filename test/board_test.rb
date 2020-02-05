@@ -66,7 +66,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_render_an_empty_board
-    
+
     rendered = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
 
     assert_equal rendered, @board.render

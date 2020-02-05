@@ -11,7 +11,7 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    return false if ship.length != coordinates.size
+    return false if ship.length != coordinates.size || coordinates.any? {|key| @cells[key].ship != nil}
     rows = coordinates.map(&:chars).map {|arr| arr[0]}
     columns = coordinates.map(&:chars).map {|arr| arr[1]}
     if rows.uniq.size == 1 &&
@@ -21,8 +21,6 @@ class Board
       columns.uniq.size == 1 &&
       rows.map(&:ord).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
       true
-    else
-      false
     end
   end
 

@@ -72,11 +72,19 @@ class BoardTest < Minitest::Test
     assert_equal rendered, @board.render
   end
 
-  def test_it_can_render_an_acurate_board
+  def test_it_can_render_a_board_and_show_a_placed_ship
     @board.place(@cruiser, ["A1", "A2", "A3"])
     rendered = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
 
     assert_equal rendered, @board.render(true)
   end
 
+  def test_it_can_render_an_accurate_board
+    
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    @board.cells["A1"].fire_upon
+    rendered = "  1 2 3 4 \nA H S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendered, @board.render
+  end
 end

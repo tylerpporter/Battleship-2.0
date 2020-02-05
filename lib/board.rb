@@ -34,13 +34,13 @@ class Board
     coordinates.each {|key| @cells[key].place_ship(ship)}
   end
 
-  def render
+  def render(ship = false)
     columns = @new_board.columns
     rows = @new_board.rows.map {|letter| letter + " "}
     columns.unshift(" ") unless columns[0] == " "
     str_columns = columns.join(" ") + " \n"
     key_grid = @cells.keys.group_by {|key| key[0]}.values
-    render_grid = key_grid.map {|row| row.map {|key| @cells[key].render}}
+    render_grid = key_grid.map {|row| row.map {|key| @cells[key].render(ship)}}
     render_string = render_grid.map {|arr| arr.join(" ") + " \n"}
     rendered_board = str_columns + rows.zip(render_string).flatten.join
   end

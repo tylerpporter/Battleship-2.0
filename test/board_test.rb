@@ -72,4 +72,11 @@ class BoardTest < Minitest::Test
     assert_equal rendered, @board.render
   end
 
+  def test_it_can_render_an_acurate_board
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    rendered = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendered, @board.render(true)
+  end
+
 end

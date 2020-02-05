@@ -46,4 +46,17 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement?(@submarine, ["A1", "C1"])
   end
 
+  def test_it_can_place_a_ship_in_its_cells
+
+    assert_equal "Invalid coordinates", @board.place(@submarine, ["A1", "C1"])
+
+    @board.place(@cruiser, ["B1", "C1", "D1"])
+
+    assert_equal "Cruiser", @board.cells["B1"].ship.name
+    assert_equal "Cruiser", @board.cells["C1"].ship.name
+    assert_equal "Cruiser", @board.cells["D1"].ship.name
+    assert @board.cells["C1"].ship == @board.cells["D1"].ship
+    refute @board.cells["A1"].ship == @board.cells["B1"].ship 
+  end
+
 end

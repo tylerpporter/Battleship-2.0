@@ -65,4 +65,11 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["B1", "B2"])
   end
 
+  def test_it_can_render_an_empty_board
+    
+    rendered = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendered, @board.render
+  end
+
 end

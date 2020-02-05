@@ -1,9 +1,10 @@
 require_relative 'board_generator.rb'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :new_board
   def initialize
-    @cells = BoardGenerator.new(4, 4).board
+    @new_board = BoardGenerator.new(4, 4)
+    @cells = @new_board.board
   end
 
   def valid_coordinate?(coordinate)
@@ -29,8 +30,19 @@ class Board
 
   def place(ship, coordinates)
     return "Invalid coordinates" if !valid_placement?(ship, coordinates)
-    
+
     coordinates.each {|key| @cells[key].place_ship(ship)}
+  end
+
+  def render
+    columns = @new_board.columns
+    rows = @new_board.rows
+    columns.unshift(" ") unless columns[0] == " "
+    str_columns = columns.join(" ") + "\n"
+    key_grid = @cells.keys.group_by {|key| key[0]}.values
+    render_grid = key_grid.map {|row| row.map {|key| @cells[key].render}}
+    render_string = render_grid.map {|arr| arr.join(" ") + "\n"}
+    rendered_board = str_columns + rows.zip(render_string).flatten.join
   end
 
 end

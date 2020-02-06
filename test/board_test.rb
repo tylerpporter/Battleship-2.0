@@ -51,6 +51,10 @@ class BoardTest < Minitest::Test
       assert_equal true, @board.cells["B1"].ship == @board.cells["C1"].ship
   end
 
+def test_ships_cannot_be_placed_in_cells_that_have_a_ship
+  @board.place(@ship, ["A1", "A2"])
+  assert_equal false, @board.valid_placement?(@ship2, ["A1", "A2", "A3"])
+end
 
 
 

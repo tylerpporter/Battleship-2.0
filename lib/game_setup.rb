@@ -2,7 +2,7 @@ require './lib/board.rb'
 require './lib/ship.rb'
 
 class GameSetup
-  attr_reader :computer_board, :player_board, :player_ships
+  attr_reader :computer_board, :player_board, :player_ships, :comp_ships
 
   def initialize
     @height = nil
@@ -22,6 +22,7 @@ class GameSetup
     @computer_board = Board.new(@height, @width)
     @player_board = Board.new(@height, @width)
     @player_ships = []
+    @comp_ships = []
   end
 
   def create_ships
@@ -31,7 +32,7 @@ class GameSetup
       puts "Invalid number of ships. You can have 2."
       num_player_ships = 2
     end
-
+# generates player ships 
     ship_nums = (1..num_player_ships)
     player_ships_hsh = {}
     ship_nums.each do |ship|
@@ -49,6 +50,17 @@ class GameSetup
 
     player_ships_hsh.each do |ship_name, ship_length|
       @player_ships << ship_name = Ship.new(ship_name, ship_length)
+    end
+# generates computer ships
+    comp_ships_hsh = {}
+    ship_nums.each do |ship|
+      name = "Ship" + ship.to_s
+      length = rand(2..3)
+      comp_ships_hsh[name] = length
+    end
+
+    comp_ships_hsh.each do |ship_name, ship_length|
+      @comp_ships << ship_name = Ship.new(ship_name, ship_length)
     end
 
   end

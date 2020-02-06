@@ -84,7 +84,18 @@ class BoardTest < Minitest::Test
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @board.cells["A1"].fire_upon
     rendered = "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n"
-    
+
     assert_equal rendered, @board.render
+
+    @board.cells["B2"].fire_upon
+    rendered2 = "  1 2 3 4 \nA H . . . \nB . M . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendered2, @board.render
+
+    @board.cells["A2"].fire_upon
+    @board.cells["A3"].fire_upon
+    rendered3 = "  1 2 3 4 \nA X X X . \nB . M . . \nC . . . . \nD . . . . \n"
+
+    assert_equal rendered3, @board.render 
   end
 end

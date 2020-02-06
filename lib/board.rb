@@ -2,8 +2,10 @@ require_relative 'board_generator.rb'
 
 class Board
   attr_reader :cells, :new_board
-  def initialize
-    @new_board = BoardGenerator.new(4, 4)
+  def initialize(height = 4, width = 4)
+    @height = height
+    @width = width
+    @new_board = BoardGenerator.new(@height, @width)
     @cells = @new_board.board
   end
 

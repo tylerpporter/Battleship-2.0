@@ -80,11 +80,11 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_render_an_accurate_board
-    
+
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @board.cells["A1"].fire_upon
-    rendered = "  1 2 3 4 \nA H S S . \nB . . . . \nC . . . . \nD . . . . \n"
-
+    rendered = "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    
     assert_equal rendered, @board.render
   end
 end

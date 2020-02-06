@@ -56,6 +56,12 @@ def test_ships_cannot_be_placed_in_cells_that_have_a_ship
   assert_equal false, @board.valid_placement?(@ship2, ["A1", "A2", "A3"])
 end
 
+def test_it_can_render_an_empty_board
+  rendered = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+
+  assert_equal rendered, @board.render
+end
+
 
 
 

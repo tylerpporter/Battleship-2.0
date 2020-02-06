@@ -33,5 +33,4 @@ attr_reader :cells
       false
     end
   end
-
 end

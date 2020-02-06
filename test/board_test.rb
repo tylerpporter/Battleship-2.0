@@ -22,4 +22,5 @@ class BoardTest < Minitest::Test
   assert_equal false, @board.valid_coordinate?("Z1")
 
   end
+
 end

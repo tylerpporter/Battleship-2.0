@@ -3,8 +3,10 @@ class MainMenu
   def initialize
     @user_decision = nil
     loop do
+      puts "-" * 50
       puts "Welcome to BATTLESHIP"
       puts "Enter 'p' to play. Enter 'q' to quit."
+      puts "-" * 50
       @user_decision = gets.chomp().downcase
       break if  @user_decision == 'p' || @user_decision == 'q'
       puts "Invalid Option!!! Try again..."

@@ -3,10 +3,10 @@ require './lib/ship.rb'
 
 class GameSetup
   attr_reader :computer_board, :player_board, :player_ships
+
   def initialize
     @height = nil
     @width = nil
-
     loop do
       puts "Enter grid height (1 - 9):"
       @height = gets.chomp().to_i

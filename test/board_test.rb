@@ -34,8 +34,8 @@ class BoardTest < Minitest::Test
 
   def test_ships_cannot_be_placed_diagonally
 
-    refute  @board.valid_placement?(@cruiser, ["A2", "B3", "C4"])
-    refute  @board.valid_placement?(@submarine, ["B2", "C1"])
+    assert_equal false,  @board.valid_placement?(@cruiser, ["A2", "B3", "C4"])
+    assert_equal false,  @board.valid_placement?(@submarine, ["B2", "C1"])
   end
 
   def test_ships_can_only_be_placed_with_consecutive_coordinates
@@ -96,6 +96,6 @@ class BoardTest < Minitest::Test
     @board.cells["A3"].fire_upon
     rendered3 = "  1 2 3 4 \nA X X X . \nB . M . . \nC . . . . \nD . . . . \n"
 
-    assert_equal rendered3, @board.render 
+    assert_equal rendered3, @board.render
   end
 end

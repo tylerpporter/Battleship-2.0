@@ -27,6 +27,8 @@ class Board
       columns.uniq.size == 1 &&
       rows.map(&:ord).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
       true
+    else
+      false 
     end
   end
 

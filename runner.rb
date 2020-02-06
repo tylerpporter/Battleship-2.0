@@ -6,5 +6,5 @@ menu = MainMenu.new
 menu
 if menu.user_decision == 'p'
   #placeholder for a Setup class
-  puts "FUCKIN BATTLESHIP!!!"
+  puts Board.new.render
 end

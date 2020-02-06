@@ -25,12 +25,14 @@ attr_reader :cells
 
   end
   def valid_coordinate?(key)
-    if @cells.keys.any? do |coordinate|
+     @cells.keys.any? do |coordinate|
        coordinate == key
      end
-      true
-    else
-      false
-    end
   end
+
+  def valid_placement?(ship, coordinate)
+      return false if ship.length != coordinate.size
+      return false if coordinate.any? {|key| @cells[key].ship != nil}
+  end
+
 end

@@ -1,9 +1,12 @@
 require_relative "test_helper.rb"
 require "./lib/board.rb"
+require "./lib/ship.rb"
 
 class BoardTest < Minitest::Test
   def setup
     @board = Board.new
+    @ship = Ship.new("cruiser", 2)
+    @ship2 = Ship.new("Submarine", 3)
   end
 
   def test_it_exists_with_cells
@@ -18,8 +21,17 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_validate_coordinates
-  assert_equal true, @board.valid_coordinate?("A1")
-  assert_equal false, @board.valid_coordinate?("Z1")
+    assert_equal true, @board.valid_coordinate?("A1")
+    assert_equal false, @board.valid_coordinate?("Z1")
+
+  end
+
+  def test_ships_cannot_be_placed_if_length_and_coordinate_length_are_not_equal
+    assert @board.valid_placement?(@ship, ["A1", "A2"])
+    assert @board.valid_placement?(@ship2, ["C1", "C2", "C3"])
+    assert_equal false, @board.valid_placement?(@ship, ["C1", "C2", "C3"])
+    
+
 
   end
 

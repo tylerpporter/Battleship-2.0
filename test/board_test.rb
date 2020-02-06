@@ -43,4 +43,16 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@ship2, ["A1", "A3", "A4"])
   end
 
+  def test_it_can_place_a_ship_in_its_cells
+      assert_equal "Invalid coordinate", @board.place(@ship, ["A1", "C1"])
+      @board.place(@ship, ["B1", "C1"])
+      assert_equal "cruiser", @board.cells["B1"].ship.name
+      assert_equal "cruiser", @board.cells["C1"].ship.name
+      assert_equal true, @board.cells["B1"].ship == @board.cells["C1"].ship
+  end
+
+
+
+
+
 end

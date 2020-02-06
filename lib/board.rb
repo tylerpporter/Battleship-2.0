@@ -47,9 +47,12 @@ attr_reader :cells
       else
         false
       end
-
-
   end
 
+  def place(ship, coordinate)
+    return "Invalid coordinate" if !valid_placement?(ship, coordinate)
+
+    coordinate.each {|key| @cells[key].place_ship(ship)}
+  end
 
 end

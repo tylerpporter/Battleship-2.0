@@ -8,15 +8,15 @@ class GameSetup
     @height = nil
     @width = nil
     loop do
-      puts "Enter grid height (1 - 9):"
+      puts "Enter grid height (2 - 9):"
       @height = gets.chomp().to_i
-      break if (1..9) === @height
+      break if (2..9) === @height
       puts "Invalid height"
     end
     loop do
-      puts "Enter grid width (1 - 9):"
+      puts "Enter grid width (2 - 9):"
       @width = gets.chomp().to_i
-      break if (1..9) === @width
+      break if (2..9) === @width
       puts "Invalid width"
     end
     @computer_board = Board.new(@height, @width)
@@ -26,13 +26,14 @@ class GameSetup
   end
 
   def create_ships
-    puts "How many ships do you want? (Up to 5)"
+    puts "How many ships do you want?"
     num_player_ships = gets.chomp().to_i
-    if num_player_ships > 5
+    if num_player_ships > @computer_board.new_board.height ||
+      num_player_ships > @computer_board.new_board.width
       puts "Invalid number of ships. You can have 2."
       num_player_ships = 2
     end
-# generates player ships 
+# generates player ships
     ship_nums = (1..num_player_ships)
     player_ships_hsh = {}
     ship_nums.each do |ship|

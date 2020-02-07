@@ -2,7 +2,7 @@ require './lib/board.rb'
 require './lib/ship.rb'
 
 class GameSetup
-  attr_reader :computer_board, :player_board, :player_ships, :comp_ships
+  attr_reader :comp_board, :player_board, :player_ships, :comp_ships
 
   def start
     @height = nil
@@ -19,7 +19,7 @@ class GameSetup
       break if (2..9) === @width
       puts "Invalid width"
     end
-    @computer_board = Board.new(@height, @width)
+    @comp_board = Board.new(@height, @width)
     @player_board = Board.new(@height, @width)
     @player_ships = []
     @comp_ships = []
@@ -28,8 +28,8 @@ class GameSetup
   def create_ships
     puts "How many ships do you want?"
     num_player_ships = gets.chomp().to_i
-    if num_player_ships > @computer_board.new_board.height ||
-      num_player_ships > @computer_board.new_board.width
+    if num_player_ships > @comp_board.new_board.height ||
+      num_player_ships > @comp_board.new_board.width
       puts "Invalid number of ships. You can have 2."
       num_player_ships = 2
     end
@@ -41,10 +41,11 @@ class GameSetup
       name = gets.chomp().to_s
       length = nil
       loop do
-        puts "Enter length of the #{name} (2 or 3):"
+        puts "Enter length of the #{name}:"
         length = gets.chomp().to_i
-        break if length == 2 || length == 3
-        puts 'ONLY 2 OR 3!!!!'
+        break if length > 0 && (length <= @comp_board.new_board.height ||
+        length <= @comp_board.new_board.height)
+        puts "Invalid length. The ship needs to be able to fit on the board."
       end
       player_ships_hsh[name] = length
     end
@@ -56,7 +57,7 @@ class GameSetup
     comp_ships_hsh = {}
     ship_nums.each do |ship|
       name = "Ship" + ship.to_s
-      length = rand(2..3)
+      length = rand(2..@comp_board.new_board.width)
       comp_ships_hsh[name] = length
     end
 

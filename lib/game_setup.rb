@@ -67,6 +67,23 @@ class GameSetup
     comp_ships_hsh.each do |ship_name, ship_length|
       @comp_ships << ship_name = Ship.new(ship_name, ship_length)
     end
-
   end
+
+  def place_ships
+# places computer ships
+
+    @comp_ships.each do |ship|
+      coordinates = []
+      loop do
+        coordinates = []
+        (ship.length).times do
+          coordinates << @comp_board.cells.keys.sample
+        end
+        break if @comp_board.valid_placement?(ship, coordinates)
+      end
+      # require "pry"; binding.pry
+      @comp_board.place(ship, coordinates)
+    end
+  end
+
 end

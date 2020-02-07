@@ -90,4 +90,35 @@ class GameSetupTest < Minitest::Test
     assert_equal 2, @game_setup.player_ships[0].length
   end
 
+  def test_it_can_place_a_computer_ship_in_a_random_valid_position
+    @string_io.puts 4
+    @string_io.puts 4
+    @string_io.puts 2
+    @string_io.puts "Cruiser"
+    @string_io.puts 2
+    @string_io.puts "Medusa"
+    @string_io.puts 3
+    @string_io.rewind
+
+    $stdin = @string_io
+    OStreamCatcher.catch do
+    @game_setup.start
+    @game_setup.create_ships
+    end
+
+    @game_setup.place_ships
+
+    $stdin = STDIN
+
+    cells_should_contain_ships = @game_setup.comp_board.cells.values.any? do |cell|
+      cell.ship != nil
+    end
+
+    cells_with_ships = @game_setup.comp_board.cells.values.select(&:ship)
+    number_of_placed_ships = cells_with_ships.group_by(&:ship).keys.size 
+
+    assert cells_should_contain_ships
+    assert_equal 2,  number_of_placed_ships
+  end
+
 end

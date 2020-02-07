@@ -14,7 +14,7 @@ class MainMenuTest < Minitest::Test
     @string_io.puts 'q'
     @string_io.rewind
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @menu.start
     end
     $stdin = STDIN
@@ -26,7 +26,7 @@ class MainMenuTest < Minitest::Test
     @string_io.puts 'p'
     @string_io.rewind
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @menu.start
     end
     $stdin = STDIN
@@ -39,7 +39,7 @@ class MainMenuTest < Minitest::Test
     @string_io.puts "q"
     @string_io.rewind
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @menu.start
     end
     $stdin = STDIN

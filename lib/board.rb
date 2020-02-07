@@ -28,7 +28,7 @@ class Board
       rows.map(&:ord).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
       true
     else
-      false 
+      false
     end
   end
 
@@ -46,7 +46,7 @@ class Board
     key_grid = @cells.keys.group_by {|key| key[0]}.values
     render_grid = key_grid.map {|row| row.map {|key| @cells[key].render(ship)}}
     render_string = render_grid.map {|arr| arr.join(" ") + " \n"}
-    rendered_board = str_columns + rows.zip(render_string).flatten.join
+    str_columns + rows.zip(render_string).flatten.join
   end
 
 end

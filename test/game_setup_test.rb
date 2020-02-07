@@ -16,7 +16,7 @@ class GameSetupTest < Minitest::Test
     @string_io.rewind
 
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @game_setup.start
     end
 
@@ -35,7 +35,7 @@ class GameSetupTest < Minitest::Test
     @string_io.rewind
 
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @game_setup.start
     end
 
@@ -54,7 +54,7 @@ class GameSetupTest < Minitest::Test
     @string_io.rewind
 
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @game_setup.start
     @game_setup.create_ships
     end
@@ -80,7 +80,7 @@ class GameSetupTest < Minitest::Test
     @string_io.rewind
 
     $stdin = @string_io
-    result, stdout, stderr = OStreamCatcher.catch do
+    OStreamCatcher.catch do
     @game_setup.start
     @game_setup.create_ships
     end

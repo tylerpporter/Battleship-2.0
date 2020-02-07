@@ -1,6 +1,6 @@
 class MainMenu
   attr_reader :user_decision
-  def initialize
+  def start
     @user_decision = nil
     loop do
       puts "-" * 50

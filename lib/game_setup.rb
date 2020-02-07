@@ -32,6 +32,9 @@ class GameSetup
       num_player_ships > @comp_board.new_board.width
       puts "Invalid number of ships. You can have 2."
       num_player_ships = 2
+    elsif num_player_ships.zero?
+      puts "That won't be any fun. You can have 2."
+      num_player_ships = 2
     end
 # generates player ships
     ship_nums = (1..num_player_ships)

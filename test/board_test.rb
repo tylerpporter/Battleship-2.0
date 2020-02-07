@@ -89,8 +89,10 @@ class BoardTest < Minitest::Test
 
     @board.cells["B2"].fire_upon
     rendered2 = "  1 2 3 4 \nA H . . . \nB . M . . \nC . . . . \nD . . . . \n"
+    rendered2_reveal = "  1 2 3 4 \nA H S S . \nB . M . . \nC . . . . \nD . . . . \n"
 
     assert_equal rendered2, @board.render
+    assert_equal rendered2_reveal, @board.render(true)
 
     @board.cells["A2"].fire_upon
     @board.cells["A3"].fire_upon

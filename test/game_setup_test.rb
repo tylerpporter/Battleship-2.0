@@ -106,7 +106,7 @@ class GameSetupTest < Minitest::Test
     @game_setup.create_ships
     end
 
-    @game_setup.place_ships
+    @game_setup.place_comp_ships
 
     $stdin = STDIN
 
@@ -115,10 +115,36 @@ class GameSetupTest < Minitest::Test
     end
 
     cells_with_ships = @game_setup.comp_board.cells.values.select(&:ship)
-    number_of_placed_ships = cells_with_ships.group_by(&:ship).keys.size 
+    number_of_placed_ships = cells_with_ships.group_by(&:ship).keys.size
 
     assert cells_should_contain_ships
     assert_equal 2,  number_of_placed_ships
+  end
+
+  def test_it_can_place_player_ships
+    @string_io.puts 4
+    @string_io.puts 4
+    @string_io.puts 2
+    @string_io.puts "Cruiser"
+    @string_io.puts 2
+    @string_io.puts "Medusa"
+    @string_io.puts 3
+    @string_io.puts "A1"
+    @string_io.puts "A2"
+    @string_io.puts "B1"
+    @string_io.puts "B2"
+    @string_io.puts "B3"
+    @string_io.rewind
+
+    $stdin = @string_io
+    OStreamCatcher.catch do
+    @game_setup.start
+    @game_setup.create_ships
+    @game_setup.place_player_ships
+    end
+
+    assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name 
+
   end
 
 end

@@ -69,9 +69,8 @@ class GameSetup
     end
   end
 
-  def place_ships
+  def place_comp_ships
 # places computer ships
-
     @comp_ships.each do |ship|
       coordinates = []
       loop do
@@ -81,8 +80,38 @@ class GameSetup
         end
         break if @comp_board.valid_placement?(ship, coordinates)
       end
-      # require "pry"; binding.pry
       @comp_board.place(ship, coordinates)
+    end
+  end
+
+  def place_player_ships
+# places player ships
+  puts @player_board.render
+
+    @player_ships.each do |ship|
+      coordinates = []
+      loop do
+        coordinates = []
+        (ship.length).times do
+          if coordinates == []
+            puts "Enter first coordinate for the #{ship.name}:"
+          elsif coordinates.size >= 1
+            puts "Enter next coordinate for the #{ship.name}:"
+          end
+
+          user_coordinate = gets.chomp().upcase
+
+          if !@player_board.valid_coordinate?(user_coordinate)
+            puts "Invalid coordinate."
+            puts " Must be an existing space on the board in format 'A1'."
+          elsif @player_board.valid_coordinate?(user_coordinate)
+            coordinates << user_coordinate
+          end
+        end
+        break if @player_board.valid_placement?(ship, coordinates)
+      puts "Invalid coordinates. Coordinates cannot be diagonal or skip cells."
+      end
+      @player_board.place(ship, coordinates)
     end
   end
 

@@ -1,5 +1,5 @@
-require 'require_all'
-require_all './lib'
+require './lib/main_menu.rb'
+require './lib/game_setup.rb'
 
 class Game
   attr_reader :menu, :game_setup
@@ -7,7 +7,6 @@ class Game
   def initialize
     @menu = MainMenu.new
     @game_setup = GameSetup.new
-    @turn = Turn.new
   end
 
   def start

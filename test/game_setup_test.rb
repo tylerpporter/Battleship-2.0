@@ -143,7 +143,36 @@ class GameSetupTest < Minitest::Test
     @game_setup.place_player_ships
     end
 
-    assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name 
+    assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name
+  end
+
+  def test_it_can_handle_invalid_input_for_ship_placement
+
+    @string_io.puts 4
+    @string_io.puts 4
+    @string_io.puts 2
+    @string_io.puts "Cruiser"
+    @string_io.puts 2
+    @string_io.puts "Medusa"
+    @string_io.puts 3
+    @string_io.puts "asl&&99kkl_%"
+    @string_io.puts "A1"
+    @string_io.puts "A4"
+    @string_io.puts "A1"
+    @string_io.puts "A2"
+    @string_io.puts "B1"
+    @string_io.puts "B2"
+    @string_io.puts "B3"
+    @string_io.rewind
+
+    $stdin = @string_io
+    OStreamCatcher.catch do
+    @game_setup.start
+    @game_setup.create_ships
+    @game_setup.place_player_ships
+    end
+
+    assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name
 
   end
 

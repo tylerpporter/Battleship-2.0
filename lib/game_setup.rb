@@ -90,7 +90,7 @@ class GameSetup
 
     @player_ships.each do |ship|
       coordinates = []
-      loop do
+      (loop do
         coordinates = []
         (ship.length).times do
           if coordinates == []
@@ -103,16 +103,21 @@ class GameSetup
 
           if !@player_board.valid_coordinate?(user_coordinate)
             puts "Invalid coordinate."
-            puts " Must be an existing space on the board in format 'A1'."
+            puts "Must be an existing space on the board in format 'A1'."
           elsif @player_board.valid_coordinate?(user_coordinate)
             coordinates << user_coordinate
           end
+          break if !@player_board.valid_coordinate?(user_coordinate)
         end
         break if @player_board.valid_placement?(ship, coordinates)
-      puts "Invalid coordinates. Coordinates cannot be diagonal or skip cells."
-      end
+        if coordinates.size == ship.length
+          puts "Invalid coordinates. Coordinates cannot be diagonal or skip cells."
+          puts "They also can't be placed on top of other ships."
+        end
+      end)
       @player_board.place(ship, coordinates)
     end
+    puts @player_board.render(true)
   end
 
 end

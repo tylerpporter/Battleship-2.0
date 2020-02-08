@@ -8,9 +8,9 @@ class GameSetup
     @height = nil
     @width = nil
     loop do
-      puts "Enter grid height (2 - 9):"
+      puts "Enter grid height (2 - 26):"
       @height = gets.chomp().to_i
-      break if (2..9) === @height
+      break if (2..26) === @height
       puts "Invalid height"
     end
     loop do
@@ -46,8 +46,10 @@ class GameSetup
       loop do
         puts "Enter length of the #{name}:"
         length = gets.chomp().to_i
-        break if length > 0 && (length <= @comp_board.new_board.height ||
-        length <= @comp_board.new_board.height)
+        # there is an issue right here for some reason, the code is not hitting the break if line only sometimes 
+        require "pry"; binding.pry
+        break if length > 0 && length <= @comp_board.new_board.height ||
+        length <= @comp_board.new_board.width
         puts "Invalid length. The ship needs to be able to fit on the board."
       end
       player_ships_hsh[name] = length

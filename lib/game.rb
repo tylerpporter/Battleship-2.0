@@ -42,9 +42,11 @@ class Game
         loop do
           puts "Enter coordinate for your shot:"
           player_shot = gets.chomp().upcase
-          break if @game_setup.comp_board.valid_coordinate?(player_shot)
+          break if @game_setup.comp_board.valid_coordinate?(player_shot) || player_shot == "EXIT"
           puts "Invalid coordinate... try #{@game_setup.comp_board.cells.keys.sample}."
+          puts "(Type 'exit' to return to Main Menu)"
         end
+        break if player_shot == 'EXIT'
         @game_setup.comp_board.cells[player_shot].fire_upon
         all_player_shots << player_shot
         loop do
@@ -85,6 +87,7 @@ class Game
         end
         break if player_ships.all?(&:sunk?) || comp_ships.all?(&:sunk?)
       end
+      start()
     elsif @menu.user_decision == 'q'
     end
   end

@@ -21,7 +21,6 @@ class MainMenu
       print "."
       sleep(1.7)
       print " oh well."
-      sleep(1)
       puts ''
     else
       puts "Let's begin..."

@@ -5,7 +5,7 @@ class BoardGenerator
   def initialize(height, width)
     @height = height
     @width = width
-
+  
     @columns = (1..@width).to_a.map(&:to_s)
     @rows = (65...65 + @height).to_a.map(&:chr)
     keys = (@rows.map do |letter|

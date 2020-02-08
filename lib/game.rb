@@ -19,8 +19,13 @@ class Game
 
       comp_ships = @game_setup.comp_ships
       player_ships = @game_setup.player_ships
+      all_player_shots = []
+      all_comp_shots = []
 
       loop do
+        player_shot = nil
+        comp_shot = nil
+
         sleep(0.3)
         print "."
         sleep(0.3)
@@ -28,10 +33,6 @@ class Game
         sleep(0.3)
         print "."
         sleep(1)
-        all_player_shots = []
-        all_comp_shots = []
-        player_shot = nil
-        comp_shot = nil
         puts ''
         puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
         puts @game_setup.comp_board.render
@@ -39,22 +40,37 @@ class Game
         puts ("=" * 10) + "PLAYER BOARD" + ("=" * 12)
         puts @game_setup.player_board.render(true)
         puts ''
+
         loop do
           puts "Enter coordinate for your shot:"
           player_shot = gets.chomp().upcase
-          break if @game_setup.comp_board.valid_coordinate?(player_shot) || player_shot == "EXIT"
-          puts "Invalid coordinate... try #{@game_setup.comp_board.cells.keys.sample}."
-          puts "(Type 'exit' to return to Main Menu)"
+          if !@game_setup.comp_board.valid_coordinate?(player_shot) &&
+            player_shot != 'EXIT'
+            print "Invalid coordinate... "
+            puts "try #{@game_setup.comp_board.cells.keys.sample}."
+            puts "(Type 'exit' to return to Main Menu)"
+          elsif all_player_shots.any? {|shot| shot == player_shot}
+            puts "You've already fired on this cell!"
+            puts "(Type 'exit' to return to Main Menu)"
+          end
+          break if @game_setup.comp_board.valid_coordinate?(player_shot) &&
+          all_player_shots.none? {|shot| shot == player_shot} ||
+          player_shot == "EXIT"
         end
+
         break if player_shot == 'EXIT'
+
         @game_setup.comp_board.cells[player_shot].fire_upon
         all_player_shots << player_shot
+
         loop do
           comp_shot = @game_setup.player_board.cells.keys.sample
           break if all_comp_shots.none? {|shot| shot == comp_shot}
         end
+
         @game_setup.player_board.cells[comp_shot].fire_upon
         all_comp_shots << comp_shot
+
         sleep(0.3)
         print ''
         print '.'
@@ -62,12 +78,13 @@ class Game
         print '.'
         sleep(0.3)
         print '.'
+
         if @game_setup.comp_board.cells[player_shot].ship.nil?
           puts "Ha! Your shot on #{player_shot} was a miss..."
         elsif !@game_setup.comp_board.cells[player_shot].ship.nil? &&
           !@game_setup.comp_board.cells[player_shot].ship.sunk? &&
           comp_ships.any? {|ship| ship.health == 1}
-          puts "Shit! One more hit and you've sunk that one..."
+          puts "Shoot! One more hit and you've sunk that one..."
         elsif !@game_setup.comp_board.cells[player_shot].ship.nil? &&
           !@game_setup.comp_board.cells[player_shot].ship.sunk?
           puts "Damn! Your shot on #{player_shot} was a hit!!!"
@@ -75,7 +92,11 @@ class Game
           @game_setup.comp_board.cells[player_shot].ship.sunk?
           puts "*** YOU SUNK MY BATTLESHIP!!! ***"
         end
+
+        break if comp_ships.all?(&:sunk?)
+
         puts ''
+
         if @game_setup.player_board.cells[comp_shot].ship.nil?
           puts "Looks like my shot on #{comp_shot} was a miss..."
         elsif !@game_setup.player_board.cells[comp_shot].ship.nil? &&
@@ -85,9 +106,27 @@ class Game
           game_setup.player_board.cells[comp_shot].ship.sunk?
           puts "*** I SUNK YOUR BATTLESHIP!!! ***"
         end
-        break if player_ships.all?(&:sunk?) || comp_ships.all?(&:sunk?)
+
+        break if player_ships.all?(&:sunk?)
+
       end
+
+      if player_ships.all?(&:sunk?)
+        puts ''
+        puts '-' * 20
+        puts "You lose... better luck next time!"
+        puts '-' * 20
+        puts ''
+      elsif comp_ships.all?(&:sunk?)
+        puts ''
+        puts '*' * 20
+        puts "You win!!!"
+        puts '*' * 20
+        puts ''
+      end
+      
       start()
+
     elsif @menu.user_decision == 'q'
     end
   end

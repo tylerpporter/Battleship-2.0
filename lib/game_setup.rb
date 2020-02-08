@@ -47,7 +47,6 @@ class GameSetup
         puts "Enter length of the #{name}:"
         length = gets.chomp().to_i
         # there is an issue right here for some reason, the code is not hitting the break if line only sometimes 
-        require "pry"; binding.pry
         break if length > 0 && length <= @comp_board.new_board.height ||
         length <= @comp_board.new_board.width
         puts "Invalid length. The ship needs to be able to fit on the board."

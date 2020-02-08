@@ -123,15 +123,6 @@ class GameSetup
       end)
       @player_board.place(ship, coordinates)
     end
-    puts ''
-    puts ''
-    puts "-" * 20
-    puts "* PLAYER BOARD *"
-    puts "-" * 20
-    puts @player_board.render(true)
-    puts "-" * 20
-    puts ''
-    puts ''
   end
 
 end

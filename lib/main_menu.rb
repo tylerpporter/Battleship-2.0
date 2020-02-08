@@ -12,11 +12,16 @@ class MainMenu
       puts "Invalid Option!!! Try again..."
     end
     if @user_decision == 'q'
-      print "We could've made some memories..."
+      print "We could've made some memories"
+      sleep(0.3)
+      print "."
+      sleep(0.3)
+      print "."
+      sleep(0.3)
+      print "."
+      sleep(1.7)
+      print " oh well."
       sleep(1)
-      print "..."
-      sleep(1)
-      puts "oh well."
       puts ''
     else
       puts "Let's begin..."

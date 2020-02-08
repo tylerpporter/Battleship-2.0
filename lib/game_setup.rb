@@ -70,7 +70,6 @@ class GameSetup
   end
 
   def place_comp_ships
-# places computer ships
     @comp_ships.each do |ship|
       coordinates = []
       loop do
@@ -85,10 +84,17 @@ class GameSetup
   end
 
   def place_player_ships
-# places player ships
-  puts @player_board.render
-
+    puts "Now, pick where you want to place your ships. "
     @player_ships.each do |ship|
+      puts ''
+      puts ''
+      puts "-" * 20
+      puts "* PLAYER BOARD *"
+      puts "-" * 20
+      puts @player_board.render(true)
+      puts "-" * 20
+      puts ''
+      puts ''
       coordinates = []
       (loop do
         coordinates = []
@@ -117,7 +123,15 @@ class GameSetup
       end)
       @player_board.place(ship, coordinates)
     end
+    puts ''
+    puts ''
+    puts "-" * 20
+    puts "* PLAYER BOARD *"
+    puts "-" * 20
     puts @player_board.render(true)
+    puts "-" * 20
+    puts ''
+    puts ''
   end
 
 end

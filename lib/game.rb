@@ -15,6 +15,7 @@ class Game
       @game_setup.start
       @game_setup.create_ships
       @game_setup.place_player_ships
+      
     elsif @menu.user_decision == 'q'
     end
   end

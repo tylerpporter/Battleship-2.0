@@ -10,15 +10,17 @@ class MainMenu
       @user_decision = gets.chomp().downcase
       break if  @user_decision == 'p' || @user_decision == 'q'
       puts "Invalid Option!!! Try again..."
-      sleep(1)
     end
     if @user_decision == 'q'
       print "We could've made some memories..."
       sleep(1)
+      print "..."
+      sleep(1)
       puts "oh well."
+      puts ''
     else
       puts "Let's begin..."
-      sleep(1)
+      puts ''
     end
   end
 

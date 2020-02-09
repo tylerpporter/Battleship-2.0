@@ -14,7 +14,10 @@ class Game
     if @menu.user_decision == 'p'
       @game_setup.start
       @game_setup.create_ships
+      # this method is currently freezing the program with large board sizes
+      # because it's searching and searching for a valid ship placement
       @game_setup.place_comp_ships
+      
       @game_setup.place_player_ships
 
       comp_ships = @game_setup.comp_ships
@@ -124,7 +127,7 @@ class Game
         puts '*' * 20
         puts ''
       end
-      
+
       start()
 
     elsif @menu.user_decision == 'q'

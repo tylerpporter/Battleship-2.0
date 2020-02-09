@@ -14,10 +14,9 @@ class Game
     if @menu.user_decision == 'p'
       @game_setup.start
       @game_setup.create_ships
-      # this method is currently freezing the program with large board sizes
-      # because it's searching and searching for a valid ship placement
+
       @game_setup.place_comp_ships
-      
+
       @game_setup.place_player_ships
 
       comp_ships = @game_setup.comp_ships
@@ -48,13 +47,18 @@ class Game
           puts "Enter coordinate for your shot:"
           player_shot = gets.chomp().upcase
           if !@game_setup.comp_board.valid_coordinate?(player_shot) &&
-            player_shot != 'EXIT'
+            player_shot != 'EXIT' && player_shot != 'UPDOWNABA'
             print "Invalid coordinate... "
             puts "try #{@game_setup.comp_board.cells.keys.sample}."
             puts "(Type 'exit' to return to Main Menu)"
           elsif all_player_shots.any? {|shot| shot == player_shot}
             puts "You've already fired on this cell!"
             puts "(Type 'exit' to return to Main Menu)"
+          elsif player_shot == 'UPDOWNABA'
+            puts ''
+            puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
+            puts @game_setup.comp_board.render(true)
+            puts ''
           end
           break if @game_setup.comp_board.valid_coordinate?(player_shot) &&
           all_player_shots.none? {|shot| shot == player_shot} ||

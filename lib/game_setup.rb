@@ -77,7 +77,6 @@ class GameSetup
       root_key = SmartComp.new(@comp_board.cells.keys.sample)
       coordinates = [root_key.current_key]
       current_key = root_key
-      require "pry"; binding.pry
       (ship.length - 1).times do
         if !@comp_board.valid_coordinate?(current_key.left_key)
           current_key = root_key
@@ -105,7 +104,6 @@ class GameSetup
           coordinates << current_key.right_key
           current_key = SmartComp.new(current_key.right_key)
         end
-        require "pry"; binding.pry
       end
 
       if coordinates.size == ship.length

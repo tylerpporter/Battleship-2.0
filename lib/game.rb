@@ -68,9 +68,29 @@ class Game
         @game_setup.comp_board.cells[player_shot].fire_upon
         all_player_shots << player_shot
 
-        loop do
-          comp_shot = @game_setup.player_board.cells.keys.sample
-          break if all_comp_shots.none? {|shot| shot == comp_shot}
+        cells_with_ships = @game_setup.player_board.cells.values.select do |cells|
+          !cells.ship.nil?
+        end
+
+        cells_with_hit_ships = cells_with_ships.select do |cells|
+          (cells.ship.health < cells.ship.length) && !cells.ship.sunk?
+        end
+
+# require "pry"; binding.pry
+        if cells_with_hit_ships.empty?
+          loop do
+            comp_shot = @game_setup.player_board.cells.keys.sample
+            break if all_comp_shots.none? {|shot| shot == comp_shot}
+          end
+        elsif !cells_with_hit_ships.empty?
+          hit_cells = cells_with_ships.select do |cell|
+            cell.ship.health < cell.ship.length
+          end
+          hit_cells_hsh = hit_cells.group_by(&:coordinate)
+          loop do
+            comp_shot = hit_cells_hsh.keys.sample
+            break if all_comp_shots.none? {|shot| shot == comp_shot}
+          end
         end
 
         @game_setup.player_board.cells[comp_shot].fire_upon
@@ -118,15 +138,15 @@ class Game
 
       if player_ships.all?(&:sunk?)
         puts ''
-        puts '-' * 20
+        puts '-' * 50
         puts "You lose... better luck next time!"
-        puts '-' * 20
+        puts '-' * 50
         puts ''
       elsif comp_ships.all?(&:sunk?)
         puts ''
-        puts '*' * 20
+        puts '*' * 50
         puts "You win!!!"
-        puts '*' * 20
+        puts '*' * 50
         puts ''
       end
 

@@ -47,8 +47,8 @@ class GameSetup
       loop do
         puts "Enter length of the #{name}:"
         length = gets.chomp().to_i
-        break if length > 0 && length <= @comp_board.new_board.height ||
-        length <= @comp_board.new_board.width
+        break if length > 0 && (length <= @comp_board.new_board.height ||
+        length <= @comp_board.new_board.width)
         puts "Invalid length. The ship needs to be able to fit on the board."
       end
       player_ships_hsh[name] = length
@@ -57,7 +57,6 @@ class GameSetup
     player_ships_hsh.each do |ship_name, ship_length|
       @player_ships << ship_name = Ship.new(ship_name, ship_length)
     end
-
 # generates computer ships
     comp_ships_hsh = {}
     ship_nums.each do |ship|
@@ -69,66 +68,80 @@ class GameSetup
     comp_ships_hsh.each do |ship_name, ship_length|
       @comp_ships << ship_name = Ship.new(ship_name, ship_length)
     end
-
   end
 
   def place_comp_ships
-    @comp_ships.each do |ship|
-      root_key = SmartComp.new(@comp_board.cells.keys.sample)
-      coordinates = [root_key.current_key]
-      current_key = root_key
-      (ship.length - 1).times do
-        if !@comp_board.valid_coordinate?(current_key.left_key)
-          current_key = root_key
-          if @comp_board.valid_coordinate?(current_key.right_key) &&
+    @comp_ships.each_with_index do |ship, index|
+      no_ship_coords = @comp_board.cells.values.select {|cell| cell.ship.nil?}
+      valid_coordinates = no_ship_coords.group_by {|cell| cell.coordinate}
+      root_key = SmartComp.new(valid_coordinates.keys.sample)
+      if index.odd? && (ship.length <= @comp_board.new_board.height)
+        coordinates = [root_key.current_key]
+        current_key = root_key
+        (ship.length - 1).times do
+          if !@comp_board.valid_coordinate?(current_key.top_key)
+            current_key = root_key
+            if @comp_board.valid_coordinate?(current_key.bottom_key) &&
+              !coordinates.include?(current_key.bottom_key)
+
+              coordinates << current_key.bottom_key
+              current_key = SmartComp.new(current_key.bottom_key)
+            end
+          elsif !@comp_board.valid_coordinate?(current_key.bottom_key)
+            current_key = root_key
+            if @comp_board.valid_coordinate?(current_key.top_key) &&
+              !coordinates.include?(current_key.top_key)
+            end
+
+          elsif @comp_board.valid_coordinate?(current_key.top_key) &&
+            !coordinates.include?(current_key.top_key)
+
+            coordinates << current_key.top_key
+            current_key = SmartComp.new(current_key.top_key)
+
+          elsif @comp_board.valid_coordinate?(current_key.bottom_key) &&
+            !coordinates.include?(current_key.bottom_key)
+
+            coordinates << current_key.bottom_key
+            current_key = SmartComp.new(current_key.bottom_key)
+          end
+        end
+        @comp_board.place(ship, coordinates.sort)
+      elsif index.odd? || index.even?
+        coordinates = [root_key.current_key]
+        current_key = root_key
+        (ship.length - 1).times do
+          if !@comp_board.valid_coordinate?(current_key.left_key)
+            current_key = root_key
+            if @comp_board.valid_coordinate?(current_key.right_key) &&
+              !coordinates.include?(current_key.right_key)
+
+              coordinates << current_key.right_key
+              current_key = SmartComp.new(current_key.right_key)
+            end
+          elsif !@comp_board.valid_coordinate?(current_key.right_key)
+            current_key = root_key
+            if @comp_board.valid_coordinate?(current_key.left_key) &&
+              !coordinates.include?(current_key.left_key)
+            end
+
+          elsif @comp_board.valid_coordinate?(current_key.left_key) &&
+            !coordinates.include?(current_key.left_key)
+
+            coordinates << current_key.left_key
+            current_key = SmartComp.new(current_key.left_key)
+
+          elsif @comp_board.valid_coordinate?(current_key.right_key) &&
             !coordinates.include?(current_key.right_key)
 
             coordinates << current_key.right_key
             current_key = SmartComp.new(current_key.right_key)
           end
-        elsif !@comp_board.valid_coordinate?(current_key.right_key)
-          current_key = root_key
-          if @comp_board.valid_coordinate?(current_key.left_key) &&
-            !coordinates.include?(current_key.left_key)
-          end
-
-        elsif @comp_board.valid_coordinate?(current_key.left_key) &&
-          !coordinates.include?(current_key.left_key)
-
-          coordinates << current_key.left_key
-          current_key = SmartComp.new(current_key.left_key)
-
-        elsif @comp_board.valid_coordinate?(current_key.right_key) &&
-          !coordinates.include?(current_key.right_key)
-
-          coordinates << current_key.right_key
-          current_key = SmartComp.new(current_key.right_key)
         end
-      end
-
-      if coordinates.size == ship.length
         @comp_board.place(ship, coordinates.sort)
       end
     end
   end
-
-
-# This method is the problem. It's taking too long to find a valid placement for
-# larger grids.
-  # def place_comp_ships
-  #   @comp_ships.each do |ship|
-  #     coordinates = []
-  #     loop do
-  #       coordinates = []
-  #       (ship.length).times do
-  #         coordinates << @comp_board.cells.keys.sample
-  #       end
-  #       break if @comp_board.valid_placement?(ship, coordinates.sort) ||
-  #       @comp_board.valid_placement?(ship, coordinates.sort_by {|key| key[1]})
-  #     end
-  #     @comp_board.place(ship, coordinates)
-  #   end
-  # end
 
   def place_player_ships
     puts "Now, pick where you want to place your ships. "

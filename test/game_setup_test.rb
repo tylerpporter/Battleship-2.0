@@ -17,7 +17,7 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
+      @game_setup.start
     end
 
     $stdin = STDIN
@@ -36,7 +36,7 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
+      @game_setup.start
     end
 
     $stdin = STDIN
@@ -55,8 +55,8 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
-    @game_setup.create_ships
+      @game_setup.start
+      @game_setup.create_ships
     end
 
     $stdin = STDIN
@@ -81,8 +81,8 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
-    @game_setup.create_ships
+      @game_setup.start
+      @game_setup.create_ships
     end
 
     $stdin = STDIN
@@ -102,8 +102,8 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
-    @game_setup.create_ships
+      @game_setup.start
+      @game_setup.create_ships
     end
 
     @game_setup.place_comp_ships
@@ -138,9 +138,9 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
-    @game_setup.create_ships
-    @game_setup.place_player_ships
+      @game_setup.start
+      @game_setup.create_ships
+      @game_setup.place_player_ships
     end
 
     assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name
@@ -167,9 +167,9 @@ class GameSetupTest < Minitest::Test
 
     $stdin = @string_io
     OStreamCatcher.catch do
-    @game_setup.start
-    @game_setup.create_ships
-    @game_setup.place_player_ships
+      @game_setup.start
+      @game_setup.create_ships
+      @game_setup.place_player_ships
     end
 
     assert "Cruiser", @game_setup.player_board.cells["A1"].ship.name

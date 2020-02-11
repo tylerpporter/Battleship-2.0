@@ -1,6 +1,5 @@
 require './lib/board.rb'
 require './lib/ship.rb'
-require './lib/smart_comp.rb'
 
 class GameSetup
   attr_reader :comp_board, :player_board, :player_ships, :comp_ships

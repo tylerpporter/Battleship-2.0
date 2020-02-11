@@ -50,7 +50,7 @@ class GameSetup
         length = gets.chomp().to_i
         break if length > 0 && (length <= @comp_board.new_board.height ||
         length <= @comp_board.new_board.width)
-        puts text[12]
+        puts @@text[12]
       end
       player_ships_hsh[name] = length
     end

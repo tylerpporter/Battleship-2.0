@@ -1,3 +1,4 @@
+
 require_relative 'test_helper.rb'
 require './lib/ship.rb'
 require './lib/board.rb'
@@ -100,4 +101,5 @@ class BoardTest < Minitest::Test
 
     assert_equal rendered3, @board.render
   end
+  
 end

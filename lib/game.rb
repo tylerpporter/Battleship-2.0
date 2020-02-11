@@ -1,7 +1,9 @@
 require './lib/main_menu.rb'
 require './lib/game_setup.rb'
+require './lib/display_module.rb'
 
 class Game
+  include Display
   attr_reader :menu, :game_setup
 
   def initialize
@@ -26,37 +28,21 @@ class Game
         player_shot = nil
         comp_shot = nil
 
-        sleep(0.3)
-        print "."
-        sleep(0.3)
-        print "."
-        sleep(0.3)
-        print "."
-        sleep(1)
-        puts ''
-        puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
-        puts @game_setup.comp_board.render
-        puts ''
-        puts ("=" * 10) + "PLAYER BOARD" + ("=" * 12)
-        puts @game_setup.player_board.render(true)
-        puts ''
+        turn_display()
 
         loop do
-          puts "Enter coordinate for your shot:"
+          puts @@text[20]
           player_shot = gets.chomp().upcase
           if !@game_setup.comp_board.valid_coordinate?(player_shot) &&
             player_shot != 'EXIT' && player_shot != 'UPDOWNABA'
-            print "Invalid coordinate... "
+            print @@text[21]
             puts "try #{@game_setup.comp_board.cells.keys.sample}."
-            puts "(Type 'exit' to return to Main Menu)"
+            puts @@text[22]
           elsif all_player_shots.any? {|shot| shot == player_shot}
-            puts "You've already fired on this cell!"
-            puts "(Type 'exit' to return to Main Menu)"
+            puts @@text[23]
+            puts @@text[22]
           elsif player_shot == 'UPDOWNABA'
-            puts ''
-            puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
-            puts @game_setup.comp_board.render(true)
-            puts ''
+            comp_board_display()
           end
           break if @game_setup.comp_board.valid_coordinate?(player_shot) &&
           all_player_shots.none? {|shot| shot == player_shot} ||
@@ -76,7 +62,6 @@ class Game
           (cells.ship.health < cells.ship.length) && !cells.ship.sunk?
         end
 
-# require "pry"; binding.pry
         if cells_with_hit_ships.empty?
           loop do
             comp_shot = @game_setup.player_board.cells.keys.sample
@@ -96,58 +81,44 @@ class Game
         @game_setup.player_board.cells[comp_shot].fire_upon
         all_comp_shots << comp_shot
 
-        sleep(0.3)
-        print ''
-        print '.'
-        sleep(0.3)
-        print '.'
-        sleep(0.3)
-        print '.'
+        thinking_display()
 
         if @game_setup.comp_board.cells[player_shot].ship.nil?
-          puts "Ha! Your shot on #{player_shot} was a miss..."
+          puts @@text[24] + " #{player_shot} " + @@text[25]
         elsif !@game_setup.comp_board.cells[player_shot].ship.nil? &&
           !@game_setup.comp_board.cells[player_shot].ship.sunk? &&
           comp_ships.any? {|ship| ship.health == 1}
-          puts "Shoot! One more hit and you've sunk that one..."
+          puts @@text[26]
         elsif !@game_setup.comp_board.cells[player_shot].ship.nil? &&
           !@game_setup.comp_board.cells[player_shot].ship.sunk?
-          puts "Damn! Your shot on #{player_shot} was a hit!!!"
+          puts @@text[27] + " #{player_shot} " + @@text[28]
         elsif !@game_setup.comp_board.cells[player_shot].ship.nil? &&
           @game_setup.comp_board.cells[player_shot].ship.sunk?
-          puts "*** YOU SUNK MY BATTLESHIP!!! ***"
+          puts @@text[29]
         end
-
-        break if comp_ships.all?(&:sunk?)
 
         puts ''
 
         if @game_setup.player_board.cells[comp_shot].ship.nil?
-          puts "Looks like my shot on #{comp_shot} was a miss..."
+          puts @@text[30] + " #{comp_shot} " + @@text[25]
         elsif !@game_setup.player_board.cells[comp_shot].ship.nil? &&
           !game_setup.player_board.cells[comp_shot].ship.sunk?
-          puts "Aha! My shot on #{comp_shot} was a hit!"
+          puts @@text[31] + " #{comp_shot} " + @@text[28]
         elsif !@game_setup.player_board.cells[comp_shot].ship.nil? &&
           game_setup.player_board.cells[comp_shot].ship.sunk?
-          puts "*** I SUNK YOUR BATTLESHIP!!! ***"
+          puts @@text[32]
         end
 
-        break if player_ships.all?(&:sunk?)
+        break if player_ships.all?(&:sunk?) || comp_ships.all?(&:sunk?)
 
       end
 
-      if player_ships.all?(&:sunk?)
-        puts ''
-        puts '-' * 50
-        puts "You lose... better luck next time!"
-        puts '-' * 50
-        puts ''
+      if player_ships.all?(&:sunk?) && comp_ships.all?(&:sunk?)
+        tie_display()
       elsif comp_ships.all?(&:sunk?)
-        puts ''
-        puts '*' * 50
-        puts "You win!!!"
-        puts '*' * 50
-        puts ''
+        winner_display()
+      elsif player_ships.all?(&:sunk?)
+        loser_display()
       end
 
       start()

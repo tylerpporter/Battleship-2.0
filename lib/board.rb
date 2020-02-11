@@ -1,69 +1,53 @@
-require "./lib/cell.rb"
+
+require_relative 'board_generator.rb'
 
 class Board
-attr_reader :cells
-
-  def initialize()
-    @cells = {
- "A1" => Cell.new("A1"),
- "A2" => Cell.new("A2"),
- "A3" => Cell.new("A3"),
- "A4" => Cell.new("A4"),
- "B1" => Cell.new("B1"),
- "B2" => Cell.new("B2"),
- "B3" => Cell.new("B3"),
- "B4" => Cell.new("B4"),
- "C1" => Cell.new("C1"),
- "C2" => Cell.new("C2"),
- "C3" => Cell.new("C3"),
- "C4" => Cell.new("C4"),
- "D1" => Cell.new("D1"),
- "D2" => Cell.new("D2"),
- "D3" => Cell.new("D3"),
- "D4" => Cell.new("D4"),
-}
-
-  end
-  def valid_coordinate?(key)
-     @cells.keys.any? do |coordinate|
-       coordinate == key
-     end
+  attr_reader :cells, :new_board
+  def initialize(height = 4, width = 4)
+    @height = height
+    @width = width
+    @new_board = BoardGenerator.new(@height, @width)
+    @cells = @new_board.board
   end
 
-  def valid_placement?(ship, coordinate)
-      return false if ship.length != coordinate.size
-      return false if coordinate.any? {|key| @cells[key].ship != nil}
-
-      rows = coordinate.map(&:chars).map { |arr| arr[0] }
-      columns = coordinate.map(&:chars).map { |arr| arr[1] }
-
-      if rows.uniq.size == 1 &&
-        columns.map(&:to_i).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
-        true
-      elsif
-        columns.uniq.size == 1 &&
-        rows.map(&:ord).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
-        true
-      else
-        false
-      end
+  def valid_coordinate?(coordinate)
+    @cells.keys.any? {|key| key == coordinate.upcase}
   end
 
-  def place(ship, coordinate)
-    return "Invalid coordinate" if !valid_placement?(ship, coordinate)
+  def valid_placement?(ship, coordinates)
+    return false if ship.length != coordinates.size
+    return false if coordinates.any? {|key| @cells[key].ship != nil}
 
-    coordinate.each {|key| @cells[key].place_ship(ship)}
+    rows = coordinates.map(&:chars).map {|arr| arr[0]}
+    columns = coordinates.map(&:chars).map {|arr| arr[1]}
+
+    if rows.uniq.size == 1 &&
+      columns.map(&:to_i).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
+      true
+    elsif
+      columns.uniq.size == 1 &&
+      rows.map(&:ord).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
+      true
+    else
+      false
+    end
+  end
+
+  def place(ship, coordinates)
+    return "Invalid coordinates" if !valid_placement?(ship, coordinates)
+
+    coordinates.each {|key| @cells[key].place_ship(ship)}
   end
 
   def render(ship = false)
-    columns = ["1", "2", "3", "4"]
-    rows = ["A ", "B ", "C ", "D "]
-
+    columns = @new_board.columns
+    rows = @new_board.rows.map {|letter| letter + " "}
     columns.unshift(" ") unless columns[0] == " "
-    string_columns = columns.join(" ") + " \n"
-    key_grid = @cells.keys.group_by { |key| key[0]}.values
-    render_grid = key_grid.map { |row| row.map {|key| @cells[key].render(ship)}}
-    render_string = render_grid.map { |arr| arr.join(" ") + " \n"  }
-    rendered_board = string_columns + rows.zip(render_string).flatten.join
+    str_columns = columns.join(" ") + " \n"
+    key_grid = @cells.keys.group_by {|key| key[0]}.values
+    render_grid = key_grid.map {|row| row.map {|key| @cells[key].render(ship)}}
+    render_string = render_grid.map {|arr| arr.join(" ") + " \n"}
+    str_columns + rows.zip(render_string).flatten.join
   end
+
 end

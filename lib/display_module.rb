@@ -1,4 +1,9 @@
+require 'pastel'
+require 'tty-font'
+
 module Display
+
+
 
   @@text =
       {

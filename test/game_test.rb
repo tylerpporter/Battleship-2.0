@@ -12,7 +12,6 @@ class GameTest < Minitest::Test
   end
 
   def test_it_exists
-
     assert_instance_of Game, @new_game
   end
 
@@ -37,14 +36,11 @@ class GameTest < Minitest::Test
     @string_io.puts "exit"
     @string_io.puts "q"
     @string_io.rewind
-
     $stdin = @string_io
     OStreamCatcher.catch do
       @new_game.start
     end
-
     $stdin = STDIN
-
     assert !@new_game.game_setup.player_board.cells["A1"].ship.nil?
   end
 

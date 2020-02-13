@@ -2,7 +2,9 @@
 require_relative 'board_generator.rb'
 
 class Board
-  attr_reader :cells, :new_board
+  attr_reader :cells,
+              :new_board
+
   def initialize(height = 4, width = 4)
     @height = height
     @width = width
@@ -17,10 +19,8 @@ class Board
   def valid_placement?(ship, coordinates)
     return false if ship.length != coordinates.size
     return false if coordinates.any? {|key| @cells[key].ship != nil}
-
     rows = coordinates.map(&:chars).map {|arr| arr[0]}
     columns = coordinates.map(&:chars).map {|arr| arr[1]}
-
     if rows.uniq.size == 1 &&
       columns.map(&:to_i).each_cons(2).all? {|num1, num2| num2 == num1 + 1}
       true
@@ -35,7 +35,6 @@ class Board
 
   def place(ship, coordinates)
     return "Invalid coordinates" if !valid_placement?(ship, coordinates)
-
     coordinates.each {|key| @cells[key].place_ship(ship)}
   end
 

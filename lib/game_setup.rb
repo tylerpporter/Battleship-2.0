@@ -10,16 +10,16 @@ class GameSetup
     @height = nil
     @width = nil
     loop do
-      puts @@text[3]
+      puts setup_messages[:grid_h]
       @height = gets.chomp().to_i
       break if (3..26) === @height
-      puts @@text[4]
+      puts invalid_messages[:height]
     end
     loop do
-      puts @@text[5]
+      puts setup_messages[:grid_w]
       @width = gets.chomp().to_i
       break if (3..9) === @width
-      puts @@text[6]
+      puts invalid_messages[:width]
     end
     @comp_board = Board.new(@height, @width)
     @player_board = Board.new(@height, @width)
@@ -28,29 +28,29 @@ class GameSetup
   end
 
   def create_ships
-    puts @@text[7]
+    puts setup_messages[:ship_num]
     num_player_ships = gets.chomp().to_i
     if num_player_ships > @comp_board.new_board.height ||
       num_player_ships > @comp_board.new_board.width
-      puts @@text[8]
+      puts invalid_messages[:ships]
       num_player_ships = 2
     elsif num_player_ships.zero?
-      puts @@text[9]
+      puts helpful_error_messages[:no_fun]
       num_player_ships = 2
     end
 # generates player ships
     ship_nums = (1..num_player_ships)
     player_ships_hsh = {}
     ship_nums.each do |ship|
-      puts @@text[10] + "#{ship}:"
+      puts setup_messages[:ship_name] + "#{ship}:"
       name = gets.chomp().to_s
       length = nil
       loop do
-        puts @@text[11] + "#{name}:"
+        puts setup_messages[:ship_length] + "#{name}:"
         length = gets.chomp().to_i
         break if length > 0 && (length <= @comp_board.new_board.height ||
         length <= @comp_board.new_board.width)
-        puts @@text[12]
+        puts invalid_messages[:length]
       end
       player_ships_hsh[name] = length
     end
@@ -86,7 +86,7 @@ class GameSetup
   end
 
   def place_player_ships
-    puts @@text[13]
+    puts setup_messages[:placement]
     @player_ships.each do |ship|
       player_board_display()
       coordinates = []
@@ -94,16 +94,16 @@ class GameSetup
         coordinates = []
         (ship.length).times do
           if coordinates == []
-            puts @@text[14] + "#{ship.name}:"
+            puts setup_messages[:first_coord] + "#{ship.name}:"
           elsif coordinates.size >= 1
-            puts @@text[15] + "#{ship.name}:"
+            puts setup_messages[:next_coord] + "#{ship.name}:"
           end
 
           user_coordinate = gets.chomp().upcase
 
           if !@player_board.valid_coordinate?(user_coordinate)
-            puts @@text[16]
-            puts @@text[17]
+            puts invalid_messages[:coordinate1]
+            puts helpful_error_messages[:existing_space]
           elsif @player_board.valid_coordinate?(user_coordinate)
             coordinates << user_coordinate
           end
@@ -111,8 +111,8 @@ class GameSetup
         end
         break if @player_board.valid_placement?(ship, coordinates)
         if coordinates.size == ship.length
-          puts @@text[18]
-          puts @@text[19]
+          puts invalid_messages[:coordinates]
+          puts helpful_error_messages[:other_ships]
         end
       end)
       @player_board.place(ship, coordinates)

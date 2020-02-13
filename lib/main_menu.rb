@@ -9,12 +9,12 @@ class MainMenu
       menu_display()
       @user_decision = gets.chomp().downcase
       break if  @user_decision == 'p' || @user_decision == 'q'
-      puts @@text[1]
+      puts invalid_messages[:try_again]
     end
     if @user_decision == 'q'
       quit_display()
     else
-      puts @@text[2]
+      puts setup_messages[:begin]
       puts ''
     end
   end

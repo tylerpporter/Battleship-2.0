@@ -19,16 +19,16 @@ class Game
 
   def player_shot_coordinate
     loop do
-      puts @@text[20]
+      puts setup_messages[:shot]
       @player_shot = gets.chomp().upcase
       if !@game_setup.comp_board.valid_coordinate?(@player_shot) &&
         @player_shot != 'EXIT' && @player_shot != 'UPDOWNABA'
-        print @@text[21]
+        print invalid_messages[:coordinate2]
         puts "try #{@game_setup.comp_board.cells.keys.sample}."
-        puts @@text[22]
+        puts helpful_error_messages[:exit]
       elsif @all_player_shots.any? {|shot| shot == @player_shot}
-        puts @@text[23]
-        puts @@text[22]
+        puts helpful_error_messages[:cell_shot]
+        puts helpful_error_messages[:exit]
       elsif @player_shot == 'UPDOWNABA'
         comp_board_display()
       end
@@ -80,29 +80,33 @@ class Game
 
   def player_feedback
     if @game_setup.comp_board.cells[@player_shot].ship.nil?
-      puts @@text[24] + " #{@player_shot} " + @@text[25]
+      puts feedback_messages[:taunt] + " #{@player_shot} " +
+      feedback_messages[:miss]
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       !@game_setup.comp_board.cells[@player_shot].ship.sunk? &&
       @comp_ships.any? {|ship| ship.health == 1}
-      puts @@text[26]
+      puts feedback_messages[:one_more]
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       !@game_setup.comp_board.cells[@player_shot].ship.sunk?
-      puts @@text[27] + " #{@player_shot} " + @@text[28]
+      puts feedback_messages[:damn] + " #{@player_shot} " +
+      feedback_messages[:hit]
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       @game_setup.comp_board.cells[@player_shot].ship.sunk?
-      puts @@text[29]
+      puts sunk_messages[:comp_sunk]
     end
   end
 
   def comp_feedback
     if @game_setup.player_board.cells[@comp_shot].ship.nil?
-      puts @@text[30] + " #{@comp_shot} " + @@text[25]
+      puts feedback_messages[:shot_on1] + " #{@comp_shot} " +
+      feedback_messages[:miss]
     elsif !@game_setup.player_board.cells[@comp_shot].ship.nil? &&
       !@game_setup.player_board.cells[@comp_shot].ship.sunk?
-      puts @@text[31] + " #{@comp_shot} " + @@text[28]
+      puts feedback_messages[:shot_on2] + " #{@comp_shot} " +
+      feedback_messages[:hit]
     elsif !@game_setup.player_board.cells[@comp_shot].ship.nil? &&
       @game_setup.player_board.cells[@comp_shot].ship.sunk?
-      puts @@text[32]
+      puts sunk_messages[:player_sunk]
     end
   end
 

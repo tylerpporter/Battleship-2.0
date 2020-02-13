@@ -18,7 +18,6 @@ class MainMenuTest < Minitest::Test
     @menu.start
     end
     $stdin = STDIN
-
     assert_equal 'q', @menu.user_decision
   end
 
@@ -30,7 +29,6 @@ class MainMenuTest < Minitest::Test
     @menu.start
     end
     $stdin = STDIN
-
     assert_equal 'p', @menu.user_decision
   end
 
@@ -43,7 +41,6 @@ class MainMenuTest < Minitest::Test
     @menu.start
     end
     $stdin = STDIN
-
     assert_equal 'q', @menu.user_decision
   end
 

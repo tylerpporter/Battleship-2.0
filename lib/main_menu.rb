@@ -3,6 +3,7 @@ require './lib/display_module.rb'
 class MainMenu
   include Display
   attr_reader :user_decision
+  
   def start
     @user_decision = nil
     loop do

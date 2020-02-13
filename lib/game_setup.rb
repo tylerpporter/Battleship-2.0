@@ -1,10 +1,15 @@
 require './lib/board.rb'
 require './lib/ship.rb'
 require './lib/display_module.rb'
+require 'pastel'
 
 class GameSetup
   include Display
   attr_reader :comp_board, :player_board, :player_ships, :comp_ships
+
+  def pastel
+    Pastel.new
+  end
 
   def start
     @height = nil
@@ -46,7 +51,7 @@ class GameSetup
       name = gets.chomp().to_s
       length = nil
       loop do
-        puts setup_messages[:ship_length] + "#{name}:"
+        puts setup_messages[:ship_length] + pastel.bold.cyan("#{name}:")
         length = gets.chomp().to_i
         break if length > 0 && (length <= @comp_board.new_board.height ||
         length <= @comp_board.new_board.width)
@@ -99,9 +104,9 @@ class GameSetup
         coordinates = []
         (ship.length).times do
           if coordinates == []
-            puts setup_messages[:first_coord] + "#{ship.name}:"
+            puts setup_messages[:first_coord] + pastel.bold.cyan("#{ship.name}:")
           elsif coordinates.size >= 1
-            puts setup_messages[:next_coord] + "#{ship.name}:"
+            puts setup_messages[:next_coord] + pastel.bold.cyan("#{ship.name}:")
           end
 
           user_coordinate = gets.chomp().upcase

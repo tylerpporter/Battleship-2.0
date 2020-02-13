@@ -4,7 +4,10 @@ require './lib/display_module.rb'
 
 class Game
   include Display
-  attr_reader :menu, :game_setup
+  attr_reader :menu,
+              :game_setup,
+              :player_shot,
+              :comp_shot
 
   def initialize
     @menu = MainMenu.new
@@ -88,11 +91,12 @@ class Game
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       !@game_setup.comp_board.cells[@player_shot].ship.sunk? &&
       @comp_ships.any? {|ship| ship.health == 1}
-      puts feedback_messages[:one_more]
+      puts feedback_messages[:one_more] + feedback_messages[:hit1] +
+      feedback_messages[:that_one]
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       !@game_setup.comp_board.cells[@player_shot].ship.sunk?
       puts feedback_messages[:damn] + " #{@player_shot} " +
-      feedback_messages[:hit]
+      feedback_messages[:hit2]
     elsif !@game_setup.comp_board.cells[@player_shot].ship.nil? &&
       @game_setup.comp_board.cells[@player_shot].ship.sunk?
       puts sunk_messages[:comp_sunk]
@@ -106,7 +110,7 @@ class Game
     elsif !@game_setup.player_board.cells[@comp_shot].ship.nil? &&
       !@game_setup.player_board.cells[@comp_shot].ship.sunk?
       puts feedback_messages[:shot_on2] + " #{@comp_shot} " +
-      feedback_messages[:hit]
+      feedback_messages[:hit2]
     elsif !@game_setup.player_board.cells[@comp_shot].ship.nil? &&
       @game_setup.player_board.cells[@comp_shot].ship.sunk?
       puts sunk_messages[:player_sunk]

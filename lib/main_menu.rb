@@ -10,10 +10,22 @@ class MainMenu
       @user_decision = gets.chomp().downcase
       break if  @user_decision == 'p' || @user_decision == 'q'
       puts invalid_messages[:try_again]
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(1)
+      puts ''
     end
     if @user_decision == 'q'
       quit_display()
     else
+      puts ''
       puts setup_messages[:begin]
       puts ''
     end

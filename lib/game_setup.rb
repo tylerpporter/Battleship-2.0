@@ -88,7 +88,12 @@ class GameSetup
   def place_player_ships
     puts setup_messages[:placement]
     @player_ships.each do |ship|
+
+      upper_boarder_display()
       player_board_display()
+      puts @player_board.render(true)
+      lower_boarder_display()
+
       coordinates = []
       (loop do
         coordinates = []

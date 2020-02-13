@@ -60,6 +60,18 @@ module Display
     }
   end
 
+  def upper_boarder_display
+    puts ''
+    puts ''
+    puts "-" * 20
+  end
+
+  def lower_boarder_display
+    puts "-" * 20
+    puts ''
+    puts ''
+  end
+
   def menu_display
     puts "-" * 50
     puts "Welcome to BATTLESHIP"
@@ -81,25 +93,15 @@ module Display
   end
 
   def player_board_display
-    puts ''
-    puts ''
-    puts "-" * 20
     puts "* PLAYER BOARD *"
     puts "-" * 20
-    puts @player_board.render(true)
-    puts "-" * 20
-    puts ''
-    puts ''
   end
 
   def comp_board_display
-    puts ''
     puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
-    puts @game_setup.comp_board.render(true)
-    puts ''
   end
 
-  def turn_display
+  def comp_turn_display
     sleep(0.3)
     print "."
     sleep(0.3)
@@ -108,12 +110,12 @@ module Display
     print "."
     sleep(1)
     puts ''
-    puts ("=" * 10) + "COMPUTER BOARD" + ("=" * 10)
-    puts @game_setup.comp_board.render
+    comp_board_display()
+  end
+
+  def player_turn_display
     puts ''
     puts ("=" * 10) + "PLAYER BOARD" + ("=" * 12)
-    puts @game_setup.player_board.render(true)
-    puts ''
   end
 
   def loser_display

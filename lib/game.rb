@@ -30,7 +30,10 @@ class Game
         puts helpful_error_messages[:cell_shot]
         puts helpful_error_messages[:exit]
       elsif @player_shot == 'UPDOWNABA'
+        upper_boarder_display()
         comp_board_display()
+        puts @game_setup.comp_board.render(true)
+        lower_boarder_display()
       end
       break if @game_setup.comp_board.valid_coordinate?(@player_shot) &&
       @all_player_shots.none? {|shot| shot == @player_shot} ||
@@ -124,7 +127,13 @@ class Game
     loop do
       @player_shot = nil
       @comp_shot = nil
-      turn_display()
+
+      comp_turn_display()
+      puts @game_setup.comp_board.render
+      player_turn_display()
+      puts @game_setup.player_board.render(true)
+      puts ""
+
       player_shot_coordinate()
       break if @player_shot == 'EXIT'
       player_fire()

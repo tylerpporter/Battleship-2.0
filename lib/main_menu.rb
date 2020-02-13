@@ -1,29 +1,32 @@
+require './lib/display_module.rb'
+
 class MainMenu
+  include Display
   attr_reader :user_decision
   def start
     @user_decision = nil
     loop do
-      puts "-" * 50
-      puts "Welcome to BATTLESHIP"
-      puts "Enter 'p' to play. Enter 'q' to quit."
-      puts "-" * 50
+      menu_display()
       @user_decision = gets.chomp().downcase
       break if  @user_decision == 'p' || @user_decision == 'q'
-      puts "Invalid Option!!! Try again..."
+      puts invalid_messages[:try_again]
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(0.5)
+      puts '.'
+      sleep(1)
+      puts ''
     end
     if @user_decision == 'q'
-      print "We could've made some memories"
-      sleep(0.3)
-      print "."
-      sleep(0.3)
-      print "."
-      sleep(0.3)
-      print "."
-      sleep(1.7)
-      print " oh well."
-      puts ''
+      quit_display()
     else
-      puts "Let's begin..."
+      puts ''
+      puts setup_messages[:begin]
       puts ''
     end
   end
